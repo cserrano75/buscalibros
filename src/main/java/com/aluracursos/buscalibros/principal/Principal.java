@@ -33,21 +33,27 @@ public class Principal {
                 .forEach(System.out::println);
 
         //Busca libro por titulo o parte de el
-//        System.out.println("Escriba el titulo del libro que desea buscar: ");
-//        var parteDelTitulo = teclado.nextLine();
-//
-//        json = consumoAPI.obtenerDatos("https://gutendex.com/books?search=" + parteDelTitulo.replace(" ","+"));
-//        var datosBusqueda = conversor.obtenerDatos(json, Datos.class);
-//        Optional<DatosDeLibros> libroBuscado = datosBusqueda.resultados().stream()
+        System.out.println("Escriba el titulo del libro que desea buscar: ");
+        var parteDelTitulo = teclado.nextLine();
+
+        json = consumoAPI.obtenerDatos("https://gutendex.com/books?search=" + parteDelTitulo.replace(" ","+"));
+        System.out.println(json);
+
+        var datosBusqueda = conversor.obtenerDatos(json, Datos.class);
+
+        Optional<DatosDeLibros> libroBuscado = datosBusqueda.resultados().stream()
+                .filter(l-> l.titulo().toUpperCase().contains(parteDelTitulo.toUpperCase()))
+                .findFirst();
+
 //                .filter(l-> l.titulo().toUpperCase().contains(parteDelTitulo.toUpperCase()))
 //                .findFirst();
-//
-//        if(libroBuscado.isPresent()){
-//            System.out.println("Libro encontrado!");
-//            System.out.println("Los datos son: " + libroBuscado.get());
-//        }else {
-//            System.out.println("Libro no encontrado!");
-//        }
+
+        if(libroBuscado.isPresent()){
+            System.out.println("Libro encontrado!");
+            System.out.println("Los datos son: " + libroBuscado.get());
+        }else {
+            System.out.println("Libro no encontrado!");
+        }
 
         //Trabajando con estadisticas
         DoubleSummaryStatistics est = datos.resultados().stream()
@@ -55,7 +61,7 @@ public class Principal {
                 .collect(Collectors.summarizingDouble(DatosDeLibros::numeroDeDescargas));
         System.out.println("Cantidad media de descargas: " + est.getAverage());
         System.out.println("Cantidad maxima de descargas: " +est.getMax());
-        System.out.println("Cantidad minina de descargas: " +est.getMin());
+        System.out.println("Cantidad minima de descargas: " +est.getMin());
         System.out.println("Cantidad de registros: " +est.getCount());
     }
 }
