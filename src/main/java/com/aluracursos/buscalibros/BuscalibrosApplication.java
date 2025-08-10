@@ -8,15 +8,20 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class BuscalibrosApplication implements CommandLineRunner {
 
+	private final Principal principal;
+
+	public BuscalibrosApplication(Principal principal) {
+		this.principal = principal;
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(BuscalibrosApplication.class, args);
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
-
-		Principal principal = new Principal();
-		principal.muestraElMenu();
+	public void run(String... args) {
+		principal.mostrarMenu();
+	}
 
 //		System.out.println("Ingreso...");
 //		var consumoApi = new ConsumoAPI();
@@ -37,5 +42,5 @@ public class BuscalibrosApplication implements CommandLineRunner {
 //
 //		libros.forEach(System.out::println);
 
-	}
 }
+
